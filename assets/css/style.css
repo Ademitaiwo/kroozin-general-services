@@ -580,8 +580,18 @@
 
   .home-page .nav-quote {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
     margin-left: 0;
-    padding: 10px 12px
+    padding: 8px 10px;
+    font-size: .62rem;
+    line-height: 1.2;
+    white-space: nowrap
+  }
+
+  .home-page .nav-quote b {
+    margin-left: 4px;
+    font-size: .9rem
   }
 
   .flyer-hero {
