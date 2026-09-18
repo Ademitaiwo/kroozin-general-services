@@ -1,0 +1,26 @@
+{
+  "name": "kroozin-work",
+  "version": "1.0.0",
+  "description": "Responsive, multi-page HTML/CSS/JavaScript corporate website prepared from the supplied KROOZ'IN letterhead and Word website-content document.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ademitaiwo/kroozin-general-services.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ademitaiwo/kroozin-general-services/issues"
+  },
+  "homepage": "https://github.com/Ademitaiwo/kroozin-general-services#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.23.0"
+  }
+}
