@@ -498,6 +498,20 @@
     height: 76px
   }
 
+  .home-page .flyer-nav {
+    justify-content: flex-start;
+    gap: 8px
+  }
+
+  .home-page .menu-toggle {
+    margin-left: auto;
+    margin-right: 0
+  }
+
+  .home-page .nav-quote {
+    margin-left: 0
+  }
+
   .home-page .logo-mark {
     width: 52px;
     height: 60px
@@ -509,10 +523,6 @@
 
   .home-page .navlinks {
     top: 76px
-  }
-
-  .nav-quote {
-    margin-left: auto
   }
 
   .flyer-hero {
@@ -559,8 +569,19 @@
     font-size: 1.1rem
   }
 
-  .nav-quote {
-    display: none
+  .home-page .flyer-nav {
+    gap: 6px
+  }
+
+  .home-page .menu-toggle {
+    margin-left: auto;
+    margin-right: 0
+  }
+
+  .home-page .nav-quote {
+    display: inline-flex;
+    margin-left: 0;
+    padding: 10px 12px
   }
 
   .flyer-hero {
@@ -633,25 +654,99 @@
   filter: saturate(.88) contrast(1.04)
 }
 
-.facility .card-photo { background-image: url('../images/local/lagos-oshodi.jpg') !important }
-.cleaning .card-photo, .environmental .card-photo { background-image: url('../images/local/nigerian-cleaner.jpg') !important; background-position: center 43% }
-.maintenance .card-photo, .supplies .card-photo, .procurement .card-photo { background-image: url('../images/local/nigeria-logistics.jpg') !important }
-.logistics .card-photo, .warehouse .card-photo, .import .card-photo { background-image: url('../images/local/nigeria-delivery.jpg') !important; background-position: center }
-.contract .card-photo { background-image: url('../images/local/lagos-marina.jpg') !important; background-position: center 62% }
+.facility .card-photo {
+  background-image: url('../images/local/lagos-oshodi.jpg') !important
+}
+
+.cleaning .card-photo,
+.environmental .card-photo {
+  background-image: url('../images/local/nigerian-cleaner.jpg') !important;
+  background-position: center 43%
+}
+
+.maintenance .card-photo,
+.supplies .card-photo,
+.procurement .card-photo {
+  background-image: url('../images/local/nigeria-logistics.jpg') !important
+}
+
+.logistics .card-photo,
+.warehouse .card-photo,
+.import .card-photo {
+  background-image: url('../images/local/nigeria-delivery.jpg') !important;
+  background-position: center
+}
+
+.contract .card-photo {
+  background-image: url('../images/local/lagos-marina.jpg') !important;
+  background-position: center 62%
+}
 
 /* Keep the homepage header and core copy as readable as the inner pages. */
-.home-page .navlinks a { font-size: .84rem !important; padding: 13px 11px !important }
-.home-page .nav-contact { font-size: .78rem !important }
-.home-page .nav-contact small { font-size: .71rem !important }
-.home-page .nav-quote { font-size: .84rem !important; padding: 14px 18px !important }
-.home-page .hero-label { font-size: .83rem !important }
-.home-page .hero-summary { font-size: 1.06rem !important; line-height: 1.6 !important }
-.home-page .flyer-card h3 { font-size: 1.03rem !important }
-.home-page .flyer-card p { font-size: .87rem !important; line-height: 1.52 !important }
-.home-page .flyer-card>span { font-size: .78rem !important }
-.page-hero .lead, .detail-main p, .card p { font-size: 1.03rem; line-height: 1.65 }
-@media(max-width:1200px){.home-page .navlinks a{font-size:.76rem !important;padding:12px 7px !important}.home-page .nav-contact{display:none}}
-@media(max-width:900px){.home-page .navlinks a{font-size:.92rem !important;padding:12px !important}}
+.home-page .navlinks a {
+  font-size: .84rem !important;
+  padding: 13px 11px !important
+}
+
+.home-page .nav-contact {
+  font-size: .78rem !important
+}
+
+.home-page .nav-contact small {
+  font-size: .71rem !important
+}
+
+.home-page .nav-quote {
+  font-size: .84rem !important;
+  padding: 14px 18px !important
+}
+
+.home-page .hero-label {
+  font-size: .83rem !important
+}
+
+.home-page .hero-summary {
+  font-size: 1.06rem !important;
+  line-height: 1.6 !important
+}
+
+.home-page .flyer-card h3 {
+  font-size: 1.03rem !important
+}
+
+.home-page .flyer-card p {
+  font-size: .87rem !important;
+  line-height: 1.52 !important
+}
+
+.home-page .flyer-card>span {
+  font-size: .78rem !important
+}
+
+.page-hero .lead,
+.detail-main p,
+.card p {
+  font-size: 1.03rem;
+  line-height: 1.65
+}
+
+@media(max-width:1200px) {
+  .home-page .navlinks a {
+    font-size: .76rem !important;
+    padding: 12px 7px !important
+  }
+
+  .home-page .nav-contact {
+    display: none
+  }
+}
+
+@media(max-width:900px) {
+  .home-page .navlinks a {
+    font-size: .92rem !important;
+    padding: 12px !important
+  }
+}
 
 * {
   box-sizing: border-box;
@@ -2793,5 +2888,69 @@ body {
 
   .industry-ribbon {
     display: none
+  }
+}
+
+/* Responsive header consistency override. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.navlinks a,
+.dropbtn,
+.home-page .navlinks a {
+  font-size: .84rem !important;
+  padding: 11px 9px !important;
+}
+
+@media (max-width: 1200px) {
+  .navlinks {
+    display: none;
+    position: absolute;
+    top: 82px;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    padding: 15px 20px;
+    flex-direction: column;
+    align-items: stretch;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .navlinks.open {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+
+  .dropdown-menu {
+    position: static;
+    display: block;
+    width: auto;
+    padding: 0 0 0 15px;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .dropdown-menu a {
+    padding: 8px !important;
+  }
+
+  .home-page .navlinks {
+    top: 76px;
+  }
+
+  .home-page .navlinks a {
+    padding: 11px !important;
+  }
+
+  .home-page .nav-contact {
+    display: none;
   }
 }
