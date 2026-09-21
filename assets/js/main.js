@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.querySelector(".menu-toggle");
   const nav = document.querySelector(".navlinks");
@@ -7,21 +6,28 @@ document.addEventListener("DOMContentLoaded", () => {
     if (nav) {
       nav.classList.remove("open");
     }
+
     if (toggle) {
       toggle.setAttribute("aria-expanded", "false");
     }
   };
 
+  // Mobile menu
   if (toggle && nav) {
     toggle.addEventListener("click", (event) => {
       event.stopPropagation();
+
       const open = nav.classList.toggle("open");
+
       toggle.setAttribute("aria-expanded", String(open));
     });
 
     document.addEventListener("click", (event) => {
       const target = event.target;
-      const clickedInsideMenu = nav.contains(target) || toggle.contains(target);
+
+      const clickedInsideMenu =
+        nav.contains(target) || toggle.contains(target);
+
       if (!clickedInsideMenu) {
         closeMenu();
       }
@@ -34,26 +40,86 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  document.querySelectorAll("a[href]").forEach(a => {
+  // Close mobile menu when a link is clicked
+  document.querySelectorAll("a[href]").forEach((a) => {
     a.addEventListener("click", () => {
       closeMenu();
     });
   });
 
+  // Update copyright year
   const year = document.querySelectorAll("[data-year]");
-  year.forEach(el => el.textContent = new Date().getFullYear());
 
+  year.forEach((el) => {
+    el.textContent = new Date().getFullYear();
+  });
+
+  // Quote/contact forms
   const forms = document.querySelectorAll("form[data-contact-form]");
-  forms.forEach(form => {
-    form.addEventListener("submit", (e) => {
+
+  forms.forEach((form) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const name = form.querySelector("[name='name']")?.value || "";
-      const service = form.querySelector("[name='service']")?.value || "General enquiry";
-      const message = form.querySelector("[name='message']")?.value || "";
-      const email = "gbenga.akamo@kroozln.com";
-      const subject = encodeURIComponent(`KROOZ'IN Service Request — ${service}`);
-      const body = encodeURIComponent(`Name: ${name}\n\nService: ${service}\n\nMessage:\n${message}`);
-      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+
+      const submitButton = form.querySelector("button[type='submit']");
+      const formData = new FormData(form);
+
+      const data = {
+        name: formData.get("name"),
+        company: formData.get("company"),
+        email: formData.get("email"),
+        phone: formData.get("phone"),
+        service: formData.get("service"),
+        message: formData.get("message")
+      };
+
+      if (!data.name || !data.email || !data.message) {
+        alert("Please fill in your name, email and message.");
+        return;
+      }
+
+      try {
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Sending...";
+        }
+
+        const response = await fetch(
+          "https://kroozin-general-services.onrender.com/api/quotes",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(
+            result.message || "Unable to send your request."
+          );
+        }
+
+        alert(
+          "Thank you! Your quote request has been received. KROOZ'IN will get back to you shortly."
+        );
+
+        form.reset();
+      } catch (error) {
+        console.error("Quote request error:", error);
+
+        alert(
+          "Sorry, we could not send your request right now. Please try again or contact KROOZ'IN directly."
+        );
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Prepare Quote Request →";
+        }
+      }
     });
   });
 });
