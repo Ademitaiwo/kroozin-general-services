@@ -1,15 +1,20 @@
-// const express = require("express");
-// const path = require("path");
-// require("dotenv").config();
-
-
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
+const { Pool } = require("pg");
+
 require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Connect to Supabase PostgreSQL
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 
 // Middleware
 app.use(express.json());
@@ -28,7 +33,7 @@ app.get("/api/health", (req, res) => {
 });
 
 // Receive quote requests
-app.post("/api/quotes", (req, res) => {
+app.post("/api/quotes", async (req, res) => {
     const {
         name,
         company,
@@ -46,22 +51,47 @@ app.post("/api/quotes", (req, res) => {
         });
     }
 
-    // For now, display the enquiry in the server console.
-    console.log("====================================");
-    console.log("NEW KROOZ'IN QUOTE REQUEST");
-    console.log("====================================");
-    console.log("Name:", name);
-    console.log("Company:", company || "Not provided");
-    console.log("Email:", email);
-    console.log("Phone:", phone || "Not provided");
-    console.log("Service:", service || "Not specified");
-    console.log("Message:", message);
-    console.log("====================================");
+    try {
+        // Save quote request to Supabase
+        const result = await pool.query(
+            `INSERT INTO quote_requests
+            (name, email, phone, service, message)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING id, created_at`,
+            [
+                name,
+                email,
+                phone || null,
+                service || null,
+                message
+            ]
+        );
 
-    res.json({
-        success: true,
-        message: "Your quote request has been received successfully."
-    });
+        console.log("====================================");
+        console.log("NEW KROOZ'IN QUOTE REQUEST SAVED");
+        console.log("====================================");
+        console.log("ID:", result.rows[0].id);
+        console.log("Name:", name);
+        console.log("Company:", company || "Not provided");
+        console.log("Email:", email);
+        console.log("Phone:", phone || "Not provided");
+        console.log("Service:", service || "Not specified");
+        console.log("Message:", message);
+        console.log("====================================");
+
+        res.json({
+            success: true,
+            message: "Your quote request has been received successfully."
+        });
+
+    } catch (error) {
+        console.error("Database error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "We could not save your quote request. Please try again."
+        });
+    }
 });
 
 // Start server
